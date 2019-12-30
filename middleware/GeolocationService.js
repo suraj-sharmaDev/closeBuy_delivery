@@ -1,9 +1,5 @@
 import Geolocation from 'react-native-geolocation-service';
-import { PermissionsAndroid, Dimensions } from 'react-native';
-const {height, width} = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+import { PermissionsAndroid } from 'react-native';
 
 const GeolocationService = (startLocation, callback) => {
 	let watchId = null;
@@ -37,8 +33,6 @@ const GeolocationService = (startLocation, callback) => {
 				let region = {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
-		            latitudeDelta : LATITUDE_DELTA,
-        		    longitudeDelta : LONGITUDE_DELTA            					
 				};
 				callback(region); //pass the region data back 
 			},

@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase';
 
-const NotificationService = (callback, fcmToken) => {
+const NotificationService = (callback, fcmToken='value') => {
   const channel = new firebase.notifications.Android.Channel(
     'delivery',
     'delivery channel',
@@ -21,7 +21,7 @@ const NotificationService = (callback, fcmToken) => {
       if (fcmToken==='') {
           fcmToken = await firebase.messaging().getToken();
           if (fcmToken) {
-              callback(fcmToken);
+            console.log(fcmToken);
           }
       }
   }
@@ -45,25 +45,17 @@ const NotificationService = (callback, fcmToken) => {
           console.warn(JSON.stringify(message));
       });
       firebase.notifications().onNotification(notification => {
-          const localNotification = new firebase.notifications.Notification()
-            .setNotificationId(notification.notificationId)
-            .setTitle(notification.title)
-            .setBody(notification.body)
-            .setData(notification._data)
-            .setSound('default')            
-            .android.setChannelId('delivery')
-            .android.setAutoCancel(true);
+          callback(notification._data);
+          // const localNotification = new firebase.notifications.Notification()
+          //   .setNotificationId(notification.notificationId)
+          //   .setTitle(notification.title)
+          //   .setBody(notification.body)
+          //   .setData(notification._data)
+          //   .setSound('default')            
+          //   .android.setChannelId('delivery')
+          //   .android.setAutoCancel(true);
 
-          firebase.notifications().displayNotification(localNotification)
-
-
-          // notification.android.setChannelId('insider').setSound('default');
-          // notification.android.setAutoCancel(true);
-          // const action = new firebase.notifications.Android.Action('control_notification', 'ic_launcher', 'Open CloseBuy');          
-          // // Add the action to the notification
-          // notification.android.addAction(action);      
-          // //Then display the notification    
-          // firebase.notifications().displayNotification(notification);
+          // firebase.notifications().displayNotification(localNotification)
       });
   }
 

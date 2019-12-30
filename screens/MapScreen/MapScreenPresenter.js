@@ -27,6 +27,7 @@ const MapScreenPresenter = (props) => {
       <MapDisplay 
         _mapRef={_mapRef}
         userLocation={props.userLocation}
+        marker={{latitude : parseFloat(props.userLocation.latitude),longitude : parseFloat(props.userLocation.longitude)}}
       />
       :
       <Text>Loading</Text>

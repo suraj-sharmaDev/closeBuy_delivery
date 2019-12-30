@@ -1,5 +1,5 @@
-const Api = async() => {
-	let coords = {lat:'123.0.0.1',long:'123.0.0.1'};
+const Api = async(position) => {
+	let coords = {latitude:position.latitude.toString(), longitude:position.longitude.toString()};
 	let formData = new FormData();
 	formData.append('receiver', 'user_Suraj');
 	formData.append('coordinates', JSON.stringify(coords));

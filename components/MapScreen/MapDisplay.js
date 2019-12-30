@@ -1,25 +1,41 @@
 import React from "react";
-import { Dimensions, View } from 'react-native';
 import MapView from "react-native-maps";
 import styled from "styled-components";
-
 
 const MapContainer = styled.View` 
   height : 100%;
   z-index : 14;
 `;
-const {height, width} = Dimensions.get('window');
+const View = styled.View`
+  background-color : #0E5159;
+  padding : 3px;
+  border-radius : 12px;
+`;
+const Text = styled.Text`
+  color : white;
+`;
 const MapDisplay = (props) => {
-  console.warn(props.userLocation);
+  React.useEffect(()=>{
+
+  },[props.userLocation]);
+
+  const onRegionChange = (coords) => {
+    // console.warn(coords);
+  }
   let content = (
     <MapView
       style={{height: '100%'}}
       minZoomLevel={10}
       ref={props._mapRef}
-      initialRegion={props.userLocation}
-      showsUserLocation={true}
-      onRegionChangeComplete={props.onRegionChange}
-    />
+      region={props.userLocation}
+      onRegionChangeComplete={onRegionChange}
+    >
+      <MapView.Marker coordinate={props.marker}>
+        <View>
+          <Text>D_Boy</Text>
+        </View>
+      </MapView.Marker>
+    </MapView>
   );
   return content;
 };
