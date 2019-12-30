@@ -2,12 +2,12 @@ import firebase from 'react-native-firebase';
 
 const NotificationService = (callback, fcmToken) => {
   const channel = new firebase.notifications.Android.Channel(
-    'insider',
-    'insider channel',
+    'delivery',
+    'delivery channel',
     firebase.notifications.Android.Importance.Max,
   );
   firebase.notifications().android.createChannel(channel);
-  firebase.messaging().subscribeToTopic('user_Suraj');  //to receive message for individual users
+  firebase.messaging().subscribeToTopic('delivery_Suraj');  //to receive message for individual users
   const checkPermission = async () => {
       const enabled = await firebase.messaging().hasPermission();
       if (enabled) {
@@ -40,9 +40,6 @@ const NotificationService = (callback, fcmToken) => {
       
       firebase.notifications().onNotificationOpened((notificationOpen) => {
           const { title, body, _data} = notificationOpen.notification;
-          if(_data.second_key==='Second Value'){
-            console.warn('Arey Waah!');
-          }
       });    
       firebase.messaging().onMessage((message) => {
           console.warn(JSON.stringify(message));
@@ -54,7 +51,7 @@ const NotificationService = (callback, fcmToken) => {
             .setBody(notification.body)
             .setData(notification._data)
             .setSound('default')            
-            .android.setChannelId('insider')
+            .android.setChannelId('delivery')
             .android.setAutoCancel(true);
 
           firebase.notifications().displayNotification(localNotification)
