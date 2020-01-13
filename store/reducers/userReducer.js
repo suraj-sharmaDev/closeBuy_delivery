@@ -4,7 +4,7 @@ const initalState = {
 	deliveryBoyId : '1234',
 	fcmToken : '',
 	apiKey : '',
-	loggedIn : true,
+	loggedIn : false,
 	skip : false
 }
 
