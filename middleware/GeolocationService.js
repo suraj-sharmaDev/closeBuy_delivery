@@ -1,7 +1,7 @@
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid } from 'react-native';
 
-const GeolocationService = (startLocation, callback) => {
+const GeolocationService = (startLocationFlag, callback) => {
 	let watchId = null;
 	const requestPermission = async () => {
 		try {
@@ -43,7 +43,7 @@ const GeolocationService = (startLocation, callback) => {
 		);
 	};
 
-	if(startLocation)
+	if(startLocationFlag)
 	{
 		requestPermission();
 	}

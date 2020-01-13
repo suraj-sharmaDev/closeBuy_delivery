@@ -1,13 +1,13 @@
 import firebase from 'react-native-firebase';
 
-const NotificationService = (callback, fcmToken='value') => {
+const NotificationService = (fcmToken, fetchDeliveryLocation, subscribe) => {
   const channel = new firebase.notifications.Android.Channel(
     'delivery',
     'delivery channel',
     firebase.notifications.Android.Importance.Max,
   );
   firebase.notifications().android.createChannel(channel);
-  firebase.messaging().subscribeToTopic('delivery_Suraj');  //to receive message for individual users
+  // firebase.messaging().subscribeToTopic('delivery_Suraj');  //to receive message for individual users
   const checkPermission = async () => {
       const enabled = await firebase.messaging().hasPermission();
       if (enabled) {
@@ -21,7 +21,7 @@ const NotificationService = (callback, fcmToken='value') => {
       if (fcmToken==='') {
           fcmToken = await firebase.messaging().getToken();
           if (fcmToken) {
-            console.log(fcmToken);
+            subscribe(fcmToken);
           }
       }
   }
@@ -45,7 +45,8 @@ const NotificationService = (callback, fcmToken='value') => {
           console.warn(JSON.stringify(message));
       });
       firebase.notifications().onNotification(notification => {
-          callback(notification._data);
+          // fetchDeliveryLocation(notification._data);
+          console.warn(JSON.stringify(notification._data));
           // const localNotification = new firebase.notifications.Notification()
           //   .setNotificationId(notification.notificationId)
           //   .setTitle(notification.title)
