@@ -10,7 +10,6 @@ export const Login = async (data) => {
     	body : data		
 	});
 	const result = await response.json();
-	console.warn(result.otp.otp);
 	return result;
 }
 

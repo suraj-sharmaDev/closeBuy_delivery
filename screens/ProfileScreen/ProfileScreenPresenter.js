@@ -1,12 +1,11 @@
 import React from "react";
-import { Platform, PermissionsAndroid, Dimensions, Keyboard } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 
+import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
+
 const {height, width} = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const Theme = styled.View`
   height : ${height};
@@ -14,10 +13,12 @@ const Theme = styled.View`
 `;
 const Text = styled.Text``;
 
+
 const ProfileScreenPresenter = (props) => {
   let content = (
   <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-    <Text>Home Screen</Text>
+    <NavigationBar {...props} />
+    <Text>Profile Screen</Text>
   </Theme>
   );
   return content;

@@ -1,34 +1,58 @@
 import React from 'react';
-import {ScrollView, SafeAreaView, StyleSheet, Dimensions} from 'react-native';
+import {Dimensions} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Colors from '../constants/Colors';
+import SideBar from "../components/DrawerNavigator/SideBar";
 import HomeScreen from '../screens/HomeScreen';
-import OrderDetailScreen from '../screens/OrderDetailScreen';
-import OrdersViewScreen from '../screens/OrdersViewScreen';
+import OrdersHistoryScreen from '../screens/OrdersHistoryScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    HomeScreen,
-    OrderDetailScreen,
-    OrdersViewScreen
+    HomeScreen: {
+      screen : HomeScreen,
+      navigationOptions : {
+        title : "Home",
+        drawerIcon : ({tintColor}) => <Icon name="account-circle" color={tintColor} size={12} />
+      }
+    },
+    OrdersHistoryScreen: {
+      screen : OrdersHistoryScreen,
+      navigationOptions : {
+        title : "All Orders",
+        drawerIcon : ({tintColor}) => <Icon name="account-badge-outline" color={tintColor} size={12} />
+      }      
+    },
+    ProfileScreen: {
+      screen : ProfileScreen,
+      navigationOptions : {
+        title : "Profile",
+        drawerIcon : ({tintColor}) => <Icon name="account-circle" color={tintColor} size={12} />
+      }      
+    }
   },
   {
-    drawerPosition : 'left',
     unmountInactiveRoutes : false,
-    edgeWidth : 10,
-    minSwipeDistance : 20,
-    drawerBackgroundColor : '#9A9AEA',
-    overlayColor : 'green',
+    drawerWidth : Dimensions.get('window').width * 0.75,
+    drawerBackgroundColor : Colors.lighterGreenColor,
+    overlayColor : 'white',
+    hideStatusBar : false,
+    contentComponent: props => (<SideBar {...props} />),        
     contentOptions: {
-      activeTintColor: '#e91e63',
+      activeTintColor: Colors.tabIconSelected,
       itemsContainerStyle: {
         marginVertical: 0,
+        marginHorizontal : 0
+      },
+      itemStyle : {
+        borderRadius: 10
       },
       iconContainerStyle: {
         opacity: 1
       }
-    }    
+    },
   }
 );
 

@@ -2,5 +2,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SUBSCRIBE = 'SUBSCRIBE';
 
-export const SAVE_ADDRESS = 'SAVE_ADDRESS';
-export const DELETE_ADDRESS = 'DELETE_ADDRESS';
+export const RECEIVE_CURRENT_ORDER = 'RECEIVE_CURRENT_ORDER';
+export const RECEIVE_PENDING_ORDER = 'RECEIVE_PENDING_ORDER';
+export const ACCEPT_ORDER = 'ACCEPT_ORDER';
+export const COMPLETE_ORDER = 'COMPLETE_ORDER';

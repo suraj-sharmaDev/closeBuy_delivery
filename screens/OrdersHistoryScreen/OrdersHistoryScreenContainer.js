@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import OrdersViewScreenPresenter from "./OrdersViewScreenPresenter";
+import OrdersHistoryScreenPresenter from "./OrdersHistoryScreenPresenter";
 
 export default class extends Component {
   static navigationOptions = {
@@ -7,6 +7,6 @@ export default class extends Component {
   };
 
   render() {
-    return <OrdersViewScreenPresenter navigation={this.props.navigation}/>;
+    return <OrdersHistoryScreenPresenter navigation={this.props.navigation}/>;
   }
 }

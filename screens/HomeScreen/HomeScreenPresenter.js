@@ -1,26 +1,29 @@
 import React from "react";
-import { Platform, PermissionsAndroid, Dimensions, Keyboard } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 
+import NotificationService from '../../middleware/NotificationService';
+import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
+
 const {height, width} = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const Theme = styled.View`
   height : ${height};
   width : ${width};
 `;
-const Button = styled.TouchableOpacity``;
 const Text = styled.Text``;
 
 const HomeScreenPresenter = (props) => {
+  React.useEffect(()=>{
+    NotificationService(props.user.deliveryBoyId, onDataNotifs);    
+  })
+  const onDataNotifs = data => {
+    console.warn(data);
+  }
   let content = (
   <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-    <Button onPress={props.navigation.openDrawer}>
-      <Text>Press Me</Text>
-    </Button>
+    <NavigationBar {...props} />
     <Text>Home Screen</Text>
   </Theme>
   );
@@ -39,5 +42,4 @@ const mapDispatchToProps = dispatch => {
     }
   }
 }
-// export default connect(mapStateToProps,{})(HomeScreenPresenter);
-export default HomeScreenPresenter;
+export default connect(mapStateToProps,{})(HomeScreenPresenter);

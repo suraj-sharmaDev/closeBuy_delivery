@@ -1,11 +1,9 @@
 import { LOGIN, LOGOUT, SUBSCRIBE } from '../actions/types';
 
 const initalState = {
-	deliveryBoyId : '1234',
-	fcmToken : '',
+	deliveryBoyId : 1,
 	apiKey : '',
-	loggedIn : false,
-	skip : false
+	loggedIn : true
 }
 
 const subscribe = (state, data) => {
@@ -13,22 +11,27 @@ const subscribe = (state, data) => {
 	newState.fcmToken = data;
 	return newState;
 }
-const login = (state) => {
+const login = (state, deliveryBoyId) => {
 	newState = {...state};
+	newState.deliveryBoyId = deliveryBoyId;
 	newState.loggedIn = true;
 	return newState;
 }
-const logout = (state) => {
-	newState = {...state};
-	newState.loggedIn = false;
-	return newState;
+const logout = () => {
+	let initalState = {
+		deliveryBoyId : null,
+		fcmToken : '',
+		apiKey : '',
+		loggedIn : false		
+	}
+	return initalState;
 }
 const userReducer = (state=initalState, action) => {
 	switch(action.type) {
 		case LOGIN :
-			return login(state);
+			return login(state, action.payload);
         case LOGOUT :
-            return logout(state);
+            return logout();
         case SUBSCRIBE :
         	return subscribe(state, action.payload);
 		default :

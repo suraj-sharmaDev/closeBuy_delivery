@@ -1,10 +1,6 @@
-const tintColor = "#202020";
-const authBorderColor = "rgba(255, 255, 255, 0.5)";
-
 export default {
-  tintColor,
   tabIconDefault: "#858585",
-  tabIconSelected: tintColor,
+  tabIconSelected: "#010101",
   homeBackgroundColor : "white",
   searchBarColor : "#EFEFEF",
   separateViewColor : "#F9F9F9",
@@ -18,7 +14,8 @@ export default {
   lightGreyColor: "#ACACAC",
   darkGreyColor: "#5A5A5A",
   blackColor: "#3B3B3B",
-  redColor : "#FF1919",
+  warningColor : "#f0ad4e",
+  dangerColor : "#d9534f",
   leftBoxColor: "#FDDCFD",
   rightBoxColor: "#B2FAFF",
 };

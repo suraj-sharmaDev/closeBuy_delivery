@@ -4,7 +4,7 @@ export const ReverseGeocode = `https://maps.googleapis.com/maps/api/geocode/json
 export const PlacesAutoComplete = `https://maps.googleapis.com/maps/api/place/autocomplete/json`;
 export const PlaceDetailsById = `https://maps.googleapis.com/maps/api/place/details/json`;
 
-export const LoginApi = `${serverUrl}/delivery/loginApi/signin`;
+export const LoginApi = `${serverUrl}/delivery/loginApi/login`;
 
 export const InitializeApi =`${serverUrl}/delivery/initializationApi/initialize`;
 
