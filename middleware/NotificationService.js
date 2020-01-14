@@ -70,6 +70,7 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
       console.warn(JSON.stringify(message));
     });
     firebase.notifications().onNotification(notification => {
+      console.warn(JSON.stringify(notification));
       if (notification._data) {
         onDataNotifs(notification._data);
         //do something with data

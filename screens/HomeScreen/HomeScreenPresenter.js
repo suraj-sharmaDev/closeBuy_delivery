@@ -7,7 +7,7 @@ import {updateCoordinate} from "../../store/actions/user";
 import NotificationService from '../../middleware/NotificationService';
 import GeolocationService from '../../middleware/GeolocationService';
 import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
-
+import OrdersList from '../../components/HomeScreen/OrdersList';
 const {height, width} = Dimensions.get('window');
 
 const Theme = styled.View`
@@ -18,16 +18,22 @@ const Text = styled.Text``;
 
 const HomeScreenPresenter = (props) => {
   React.useEffect(()=>{
-    NotificationService(props.user.deliveryBoyId, onDataNotifs);    
-    GeolocationService(props.user.deliveryBoyId, props.order.customerId, props.onUpdateCoordinate);
-  })
+    NotificationService(props.user.deliveryBoyId, onDataNotifs);
+  },[])
   const onDataNotifs = data => {
     console.warn(data);
   }
+  const onAcceptOrder = (data) => {
+    console.warn(data, 'accepting');
+  }
+  const onTrackOrder = (data) => {
+    console.warn(data, 'tracking');
+  }
   let content = (
   <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
+    <GeolocationService />
     <NavigationBar {...props} />
-    <Text>Home Screen</Text>
+    <OrdersList store={props.order} onAcceptOrder={onAcceptOrder} onTrackOrder={onTrackOrder}/>
   </Theme>
   );
   return content;
@@ -36,17 +42,7 @@ const HomeScreenPresenter = (props) => {
 const mapStateToProps = state => {
   return {
     user : state.user,
-    order : state.order,
+    order : state.order
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubscribe : data => {
-      dispatch(subscribe(data));
-    },
-    onUpdateCoordinate : data => {
-      dispatch(updateCoordinate(data));
-    }
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreenPresenter);
+export default React.memo(connect(mapStateToProps, {})(HomeScreenPresenter));

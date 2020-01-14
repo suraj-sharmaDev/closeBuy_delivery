@@ -1,22 +1,8 @@
 import { RECEIVE_CURRENT_ORDER, RECEIVE_PENDING_ORDER, ACCEPT_ORDER, COMPLETE_ORDER } from '../actions/types';
 
 const initialState = {
-	currentOrder : {
-		orderId : null,
-		customerId : null,
-		distributorId : null,			
-		deliveryCoordinates: {},
-		pickupCoordinates: {},
-	},
-	pendingOrders : [
-		{
-			orderId : null,
-			customerId : null,
-			distributorId : null,			
-			deliveryCoordinates: {},
-			pickupCoordinates: {},
-		}
-	]
+	currentOrder : {},
+	pendingOrders : []
 };
 
 const onReceiveCurrentOrder = (state, data) => {
@@ -34,26 +20,21 @@ const onReceiveCurrentOrder = (state, data) => {
 }
 const onCompleteOrder = (state) => {
 	let newState = {...state};
-	newState.currentOrder = {
-		orderId : null,
-		customerId : null,
-		distributorId : null,			
-		deliveryCoordinates: {},
-		pickupCoordinates: {},		
-	};
+	newState.currentOrder = {};
 	return newState;
 }
 const onReceivePendingOrder = (state, data) => {
 	let newState = {...state};
-	let pushData = { 
-		orderId : data.id,
-		customerId : data.customer_id,
-		distributorId : dist_point_id,
-		orderItems : data.items_added,
-		deliveryCoordinates : data.delivery_address, 
-		pickupCoordinates : data.distribution_point_coordinates,
-	};
-	newState.pendingOrders.push(pushData);
+	data.map((d)=>{
+		newState.pendingOrders.push({
+			orderId : d.id,
+			customerId : d.customer_id,
+			distributorId : d.dist_point_id,
+			orderItems : JSON.parse(d.items_added),
+			deliveryCoordinates : JSON.parse(d.delivery_address), 
+			pickupCoordinates : JSON.parse(d.distribution_point_coordinates)			
+		})
+	});
 	return newState;
 }
 const onAcceptOrder = (state, index) => {

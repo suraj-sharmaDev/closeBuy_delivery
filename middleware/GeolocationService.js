@@ -1,9 +1,18 @@
+import React from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import {UpdateLocation} from './API';
 import { PermissionsAndroid } from 'react-native';
+import {connect} from 'react-redux';
+import {updateCoordinate} from "../store/actions/user";
 
-const GeolocationService = ( deliveryBoyId, customerId, callback) => {
+const GeolocationService = (props) => {
 	let watchId = null;
+	React.useEffect(()=>{
+		requestPermission();
+		return ()=>{
+		    Geolocation.clearWatch(watchId);    
+		}
+	},[])
 	const requestPermission = async () => {
 		try {
 			const granted = await PermissionsAndroid.request(
@@ -36,12 +45,12 @@ const GeolocationService = ( deliveryBoyId, customerId, callback) => {
 					longitude: position.coords.longitude,
 				};
 				let formData = new FormData();
-				formData.append('deliveryBoyId', deliveryBoyId);
-				formData.append('customerId', customerId);
+				formData.append('deliveryBoyId', props.user.deliveryBoyId);
+				formData.append('customerId', props.order.customerId);
 				formData.append('coordinates', JSON.stringify(region));
 				UpdateLocation(formData)
 				.then((result)=>{
-					callback(region);
+					props.onUpdateCoordinate(region);
 				})
 				.catch((err)=>{
 					console.warn(err);
@@ -53,15 +62,22 @@ const GeolocationService = ( deliveryBoyId, customerId, callback) => {
 			{enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter:5},
 		);
 	};
-
-	requestPermission();
-	// if(startLocationFlag)
-	// {
-		// requestPermission();
-	// }
-	// else{
-	//     Geolocation.clearWatch(watchId);    
-	// }	
+	return null;
 }
-
-export default GeolocationService;
+const mapStateToProps = state => {
+  return {
+    user : state.user,
+    order : state.order,
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubscribe : data => {
+      dispatch(subscribe(data));
+    },
+    onUpdateCoordinate : data => {
+      dispatch(updateCoordinate(data));
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(GeolocationService);

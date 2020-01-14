@@ -15,13 +15,14 @@ const AuthNavigator = (props) => {
 
 	const appInitializer = async() => {
 		if(initialized===null){
-			Initialize(props.user.userId)
+			Initialize(props.user.deliveryBoyId)
 				.then(async result => {
 					if (result.error) {
-						console.warn(result);						
+						// console.warn(result);						
 						//If there are no saved addresses
 						updateInitialized('initialized');
 					} else {
+						// console.warn(result);
 						//latest updated information for this deliveryBoy
 						await props.onRetrieveData(result);
 						updateInitialized('initialized');
@@ -57,9 +58,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onRetrieveData : data => {
     	if(!data.current_order.error){
-    		dispatch(receiveCurrentOrder(data));
+    		dispatch(receiveCurrentOrder(data.current_order.reason));
     	}if(!data.pending_orders.error){
-    		dispatch(receivePendingOrder(data));
+    		dispatch(receivePendingOrder(data.pending_orders.reason));
     	}
     },
   }

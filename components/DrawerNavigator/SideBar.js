@@ -41,8 +41,8 @@ const SideBar = props => {
 			<SafeAreaView forceInset={{top: 'always', horizontal: 'never'}}>
 				<ImageBackground source={require('../../assets/images/bubbles.jpg')} style={{width: '100%', height:100}} />
 				<DrawerNavigatorItems {...props} />
-				<Item onPress={props.onLogout}>
-					<Button>
+				<Item>
+					<Button onPress={props.onLogout}>
 						<Icon name="lock" size={22} color="white"/>
 						<Label>Logout</Label>					
 					</Button>
