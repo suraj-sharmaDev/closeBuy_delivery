@@ -9,6 +9,7 @@ export const LoginApi = `${serverUrl}/delivery/loginApi/login`;
 export const InitializeApi =`${serverUrl}/delivery/initializationApi/initialize`;
 
 export const UpdateTokenApi = `${serverUrl}/delivery/tokenApi/updateToken`;
+export const UpdateLocationApi = `${serverUrl}/delivery/locationApi/updateLocation`;
 
 export const AcceptOrderApi =`${serverUrl}/delivery/orderApi/acceptOrder`; 
 export const CompleteOrderApi =`${serverUrl}/delivery/orderApi/complete`;

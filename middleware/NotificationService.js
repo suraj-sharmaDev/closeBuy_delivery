@@ -25,7 +25,7 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
     formData.append('token', fcmToken);
     UpdateToken(formData)
       .then(result => {
-        console.warn(result);
+        // console.warn(result);
       })
       .catch(err => {
         console.warn('Notification Service Error');

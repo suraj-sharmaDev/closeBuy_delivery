@@ -1,5 +1,5 @@
 import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, LoginApi, InitializeApi, 
-	     UpdateTokenApi, AcceptOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
+	     UpdateTokenApi, UpdateLocationApi, AcceptOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
 	     GetPendingOrdersApi, GetCompletedOrdersApi, GetOrderDetailsApi} from "../constants/Urls";
 
 import API_KEY from "../constants/Api";
@@ -28,7 +28,14 @@ export const UpdateToken = async(data) => {
 	const result = await response.json();
 	return result;	
 }
-
+export const UpdateLocation = async(data) => {
+	const response = await fetch(UpdateLocationApi,{
+		method : 'POST',
+		body : data
+	});
+	const result = await response.json();
+	return result;	
+}
 export const AcceptOrder = async(orderId) => {
 	let url = `${AcceptOrderApi}?orderId=${orderId}`;
 	const response = await fetch(url);

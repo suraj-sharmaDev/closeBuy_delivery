@@ -1,7 +1,8 @@
 import Geolocation from 'react-native-geolocation-service';
+import {UpdateLocation} from './API';
 import { PermissionsAndroid } from 'react-native';
 
-const GeolocationService = (startLocationFlag, callback) => {
+const GeolocationService = ( deliveryBoyId, customerId, callback) => {
 	let watchId = null;
 	const requestPermission = async () => {
 		try {
@@ -34,7 +35,17 @@ const GeolocationService = (startLocationFlag, callback) => {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
 				};
-				callback(region); //pass the region data back 
+				let formData = new FormData();
+				formData.append('deliveryBoyId', deliveryBoyId);
+				formData.append('customerId', customerId);
+				formData.append('coordinates', JSON.stringify(region));
+				UpdateLocation(formData)
+				.then((result)=>{
+					callback(region);
+				})
+				.catch((err)=>{
+					console.warn(err);
+				})
 			},
 			error => {
 				navigation.goBack();
@@ -43,13 +54,14 @@ const GeolocationService = (startLocationFlag, callback) => {
 		);
 	};
 
-	if(startLocationFlag)
-	{
-		requestPermission();
-	}
-	else{
-	    Geolocation.clearWatch(watchId);    
-	}	
+	requestPermission();
+	// if(startLocationFlag)
+	// {
+		// requestPermission();
+	// }
+	// else{
+	//     Geolocation.clearWatch(watchId);    
+	// }	
 }
 
 export default GeolocationService;

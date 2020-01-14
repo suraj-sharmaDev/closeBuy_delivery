@@ -1,14 +1,20 @@
-import { LOGIN, LOGOUT, SUBSCRIBE } from '../actions/types';
+import { LOGIN, LOGOUT, SUBSCRIBE, COORDINATE_UPDATE } from '../actions/types';
 
 const initalState = {
+	loggedIn : true,	
 	deliveryBoyId : 1,
-	apiKey : '',
-	loggedIn : true
+	coordinate : null,
+	apiKey : ''
 }
 
 const subscribe = (state, data) => {
 	newState = {...state};
 	newState.fcmToken = data;
+	return newState;
+}
+const updateCoordinate = (state, data) => {
+	newState = {...state};
+	newState.coordinate = data;
 	return newState;
 }
 const login = (state, deliveryBoyId) => {
@@ -19,10 +25,10 @@ const login = (state, deliveryBoyId) => {
 }
 const logout = () => {
 	let initalState = {
-		deliveryBoyId : null,
-		fcmToken : '',
-		apiKey : '',
-		loggedIn : false		
+		loggedIn : false,	
+		deliveryBoyId : 1,
+		coordinate : null,
+		apiKey : ''
 	}
 	return initalState;
 }
@@ -34,6 +40,8 @@ const userReducer = (state=initalState, action) => {
             return logout();
         case SUBSCRIBE :
         	return subscribe(state, action.payload);
+        case COORDINATE_UPDATE :
+        	return updateCoordinate(state, action.payload);        	
 		default :
 			return state;
 	}
