@@ -33,10 +33,11 @@ const OrderCard = props => {
 	}else{
 		let numOfItems = Object.keys(props.store.orderItems).length;
 		let orderId = props.store.orderId;
+		let customerId = props.store.customerId;
 		let houseDetail = props.store.deliveryCoordinates.houseDetail;
 		let landmark = props.store.deliveryCoordinates.landmark;
 		content = (
-			<Button onPress={()=>props.clickHandler(orderId)}>
+			<Button onPress={()=>props.clickHandler(orderId, customerId, props.index)}>
 				<Text>{numOfItems} Items Ordered</Text>
 				<Text>To be delivered at {houseDetail}</Text>
 				<Text>{landmark}</Text>								

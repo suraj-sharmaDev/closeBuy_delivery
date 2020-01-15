@@ -18,9 +18,8 @@ export const receivePendingOrder = data => {
     payload: data
   }
 }
-export const completeOrder = index => {
+export const completeOrder = () => {
   return {
     type: COMPLETE_ORDER,
-    payload: index
   }
 }

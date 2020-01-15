@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, Dimensions } from 'react-native';
+import { Platform, Dimensions, RefreshControl } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,10 +13,23 @@ const Container = styled.ScrollView`
 `;
 
 const OrdersList = (props) => {
+	const [refreshing, updateRefreshing] = React.useState(false);
 	React.useEffect(() => {
 	}, []);
+
+	const refresh = () => {
+		// console.warn('refresh');
+		updateRefreshing(false);
+	}
 	let content = (
-		<Container>
+		<Container
+		 refreshControl={		
+			<RefreshControl
+            	refreshing={refreshing}
+            	onRefresh={refresh}
+          	/>
+         }		
+		> 		
 			<CurrentOrder store={props.store.currentOrder} onTrackOrder={props.onTrackOrder}/>
 			<PendingOrders store={props.store.pendingOrders} onAcceptOrder={props.onAcceptOrder}/>
 		</Container>
@@ -24,4 +37,4 @@ const OrdersList = (props) => {
 	return content;
 }
 
-export default React.memo(OrdersList);
+export default OrdersList;

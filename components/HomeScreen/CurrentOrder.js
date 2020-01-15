@@ -30,7 +30,7 @@ const CurrentOrder = (props) => {
 	content = (
 		<Container>
 			<Label>Current Order</Label>
-			<OrderCard store={props.store} clickHandler={props.onTrackOrder}/>
+			<OrderCard store={props.store} index={0} clickHandler={props.onTrackOrder}/>
 		</Container>		
 	);
 	return content;

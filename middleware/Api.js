@@ -1,5 +1,5 @@
-import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, LoginApi, InitializeApi, 
-	     UpdateTokenApi, UpdateLocationApi, AcceptOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
+import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, DirectionPolyline, LoginApi, InitializeApi, 
+	     UpdateTokenApi, UpdateLocationApi, AcceptOrderApi, PickOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
 	     GetPendingOrdersApi, GetCompletedOrdersApi, GetOrderDetailsApi} from "../constants/Urls";
 
 import API_KEY from "../constants/Api";
@@ -36,15 +36,20 @@ export const UpdateLocation = async(data) => {
 	const result = await response.json();
 	return result;	
 }
-export const AcceptOrder = async(orderId) => {
-	let url = `${AcceptOrderApi}?orderId=${orderId}`;
+export const AcceptOrder = async(orderId, customerId) => {
+	let url = `${AcceptOrderApi}?orderId=${orderId}&customerId=${customerId}`;
 	const response = await fetch(url);
 	const result = await response.json();
 	return result;	
 }
-
-export const CompleteOrder = async(orderId) => {
-	let url = `${CompleteOrderApi}?orderId=${orderId}`;
+export const PickOrder = async(orderId, customerId) => {
+	let url = `${PickOrderApi}?orderId=${orderId}&customerId=${customerId}`;
+	const response = await fetch(url);
+	const result = await response.json();
+	return result;	
+}
+export const CompleteOrder = async(orderId, customerId) => {
+	let url = `${CompleteOrderApi}?orderId=${orderId}&customerId=${customerId}`;
 	const response = await fetch(url);
 	const result = await response.json();
 	return result;	
@@ -66,6 +71,19 @@ export const GetCompletedOrders = async(deliveryBoyId) => {
 	const response = await fetch(url);
 	const result = await response.json();
 	return result;	
+}
+export const GetDirection = async(startCoords, destinationCoords) => {
+	const url = `${DirectionPolyline}?origin=${startCoords}&destination=${destinationCoords}&key=${API_KEY}`;
+	const response = await fetch(url);
+	const result = await response.json();
+	let points = Polyline.decode(result.routes[0].overview_polyline.points);
+        let coords = points.map((point, index) => {
+            return  {
+                latitude : point[0],
+                longitude : point[1]
+            }
+        })
+    return points;	
 }
 export const ReverseLookup = async (region) => {
 	//function to get place name from lat and long

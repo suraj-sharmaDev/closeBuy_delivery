@@ -17,7 +17,7 @@ const Text = styled.Text``;
 const OrderCompletionScreenPresenter = (props) => {
   let content = (
   <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-    <Text>Home Screen</Text>
+    <Text>Order Completion Screen</Text>
   </Theme>
   );
   return content;

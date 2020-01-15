@@ -4,10 +4,6 @@ import styled from "styled-components";
 import {connect} from 'react-redux';
 
 const {height, width} = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 const Theme = styled.View`
   height : ${height};
   width : ${width};

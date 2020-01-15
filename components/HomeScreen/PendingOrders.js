@@ -30,10 +30,16 @@ const PendingOrders = (props) => {
 	content = (
 		<Container>
 			<Label>Pending Orders</Label>
-			{props.store.map((s, index)=>(<OrderCard store={s} key={index} clickHandler={props.onAcceptOrder}/>))}
+			{
+				Object.keys(props.store).length > 0
+				?
+				props.store.map((s, index)=>(<OrderCard store={s} key={index} index={index} clickHandler={props.onAcceptOrder}/>))
+				:
+				<OrderCard store={props.store} />				
+			}
 		</Container>
 	);
 	return content;
 }
 
-export default React.memo(PendingOrders);
+export default PendingOrders;

@@ -4,7 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import DrawerNavigator from "./DrawerNavigator";
 import OrderDetailScreen from "../screens/OrderDetailScreen";
 import OrderCompletionScreen from "../screens/OrderCompletionScreen";
-
+import OrderTrackingScreen from "../screens/OrderTrackingScreen";
 const ScreensStack = createStackNavigator(
   {
     Drawer: {
@@ -16,6 +16,13 @@ const ScreensStack = createStackNavigator(
     },
     OrderDetail : {
       screen: OrderDetailScreen,
+      navigationOptions: {
+        header: null,
+        headerTransparent: true
+      }
+    },
+    OrderTrack : {
+      screen: OrderTrackingScreen,
       navigationOptions: {
         header: null,
         headerTransparent: true

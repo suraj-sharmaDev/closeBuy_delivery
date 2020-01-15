@@ -7,16 +7,16 @@ const initialState = {
 
 const onReceiveCurrentOrder = (state, data) => {
 	let newState = {...state};
-	let currentOrder = { 
+	newState.currentOrder = { 
 		orderId : data.id,
+		orderStatus : data.delivery_status,
 		customerId : data.customer_id,
-		distributorId : dist_point_id,
-		orderItems : data.items_added,
-		deliveryCoordinates : data.delivery_address, 
-		pickupCoordinates : data.distribution_point_coordinates,
+		distributorId : data.dist_point_id,
+		orderItems : JSON.parse(data.items_added),
+		deliveryCoordinates : JSON.parse(data.delivery_address), 
+		pickupCoordinates : JSON.parse(data.distribution_point_coordinates)
 	};
-	newState.currentOrder = currentOrder;
-	return newState;	
+	return newState;
 }
 const onCompleteOrder = (state) => {
 	let newState = {...state};
@@ -25,9 +25,11 @@ const onCompleteOrder = (state) => {
 }
 const onReceivePendingOrder = (state, data) => {
 	let newState = {...state};
+	newState.pendingOrders = [];
 	data.map((d)=>{
 		newState.pendingOrders.push({
 			orderId : d.id,
+			orderStatus : d.delivery_status,
 			customerId : d.customer_id,
 			distributorId : d.dist_point_id,
 			orderItems : JSON.parse(d.items_added),
@@ -40,6 +42,9 @@ const onReceivePendingOrder = (state, data) => {
 const onAcceptOrder = (state, index) => {
 	//index is the array index of current order
 	let newState = {...state};
+	acceptedOrder = newState.pendingOrders[index];
+	acceptedOrder.orderStatus = 'accepted';
+	newState.currentOrder = acceptedOrder;
 	newState.pendingOrders.splice(index,1);
 	return newState;
 }
@@ -53,7 +58,7 @@ const addressReducer = (state = initialState, action) => {
   	case ACCEPT_ORDER :
   		return onAcceptOrder(state, action.payload);
   	case COMPLETE_ORDER :
-  		return onCompleteOrder(state, action.payload);
+  		return onCompleteOrder(state);
     default:
       return state;
   }

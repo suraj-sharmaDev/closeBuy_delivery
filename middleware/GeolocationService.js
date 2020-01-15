@@ -1,18 +1,15 @@
-import React from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import {UpdateLocation} from './API';
-import { PermissionsAndroid } from 'react-native';
+import {Dimensions, PermissionsAndroid } from 'react-native';
 import {connect} from 'react-redux';
-import {updateCoordinate} from "../store/actions/user";
 
-const GeolocationService = (props) => {
+const {height, width} = Dimensions.get('window');
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.005;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const GeolocationService = (mounted, updateCoordinate) => {
 	let watchId = null;
-	React.useEffect(()=>{
-		requestPermission();
-		return ()=>{
-		    Geolocation.clearWatch(watchId);    
-		}
-	},[])
+
 	const requestPermission = async () => {
 		try {
 			const granted = await PermissionsAndroid.request(
@@ -43,18 +40,10 @@ const GeolocationService = (props) => {
 				let region = {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
+					latitudeDelta : LATITUDE_DELTA,
+					longitudeDelta : LONGITUDE_DELTA
 				};
-				let formData = new FormData();
-				formData.append('deliveryBoyId', props.user.deliveryBoyId);
-				formData.append('customerId', props.order.customerId);
-				formData.append('coordinates', JSON.stringify(region));
-				UpdateLocation(formData)
-				.then((result)=>{
-					props.onUpdateCoordinate(region);
-				})
-				.catch((err)=>{
-					console.warn(err);
-				})
+				updateCoordinate(region);
 			},
 			error => {
 				navigation.goBack();
@@ -62,22 +51,11 @@ const GeolocationService = (props) => {
 			{enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter:5},
 		);
 	};
-	return null;
+
+	if(mounted){
+		requestPermission();		
+	}else{
+		Geolocation.clearWatch(watchId);	
+	}
 }
-const mapStateToProps = state => {
-  return {
-    user : state.user,
-    order : state.order,
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubscribe : data => {
-      dispatch(subscribe(data));
-    },
-    onUpdateCoordinate : data => {
-      dispatch(updateCoordinate(data));
-    }
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(GeolocationService);
+export default GeolocationService;

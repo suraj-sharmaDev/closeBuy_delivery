@@ -11,6 +11,8 @@ import AppNavigator from "./AppNavigator";
 const AuthNavigator = (props) => {
 	const [initialized, updateInitialized] = React.useState(null);
 	React.useEffect(()=>{
+		return ()=>{
+		}
 	},[])
 
 	const appInitializer = async() => {
