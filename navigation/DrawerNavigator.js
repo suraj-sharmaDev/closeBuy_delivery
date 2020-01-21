@@ -34,6 +34,7 @@ const DrawerNavigator = createDrawerNavigator(
     }
   },
   {
+    initialRouteName : "HomeScreen",
     unmountInactiveRoutes : false,
     drawerWidth : Dimensions.get('window').width * 0.75,
     drawerBackgroundColor : Colors.lighterGreenColor,

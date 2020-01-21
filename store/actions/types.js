@@ -1,5 +1,6 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const STATUS_UPDATE = 'STATUS_UPDATE';
 export const SUBSCRIBE = 'SUBSCRIBE';
 export const COORDINATE_UPDATE = 'COORDINATE_UPDATE';
 

@@ -3,6 +3,7 @@ import { Platform, Dimensions } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 
+import OrdersCard from '../../components/OrdersHistoryScreen/OrdersCard';
 import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
 
 const {height, width} = Dimensions.get('window');
@@ -11,14 +12,15 @@ const Theme = styled.View`
   height : ${height};
   width : ${width};
 `;
-const Text = styled.Text``;
 
-
+//Let's not store all orders for this customer in his local storage
+//With increase in orders the data stored will also increase
+//hail ajax call
 const OrdersHistoryScreenPresenter = (props) => {
   let content = (
-  <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
+  <Theme>
     <NavigationBar {...props} />
-    <Text>View All orders Screen</Text>
+    <OrdersCard deliveryBoyId={props.user.deliveryBoyId}/>
   </Theme>
   );
   return content;
@@ -29,12 +31,5 @@ const mapStateToProps = state => {
     user : state.user
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    onSubscribe : data => {
-      dispatch(subscribe(data));
-    }
-  }
-}
-// export default connect(mapStateToProps,{})(OrdersHistoryScreenPresenter);
-export default OrdersHistoryScreenPresenter;
+
+export default connect(mapStateToProps,{})(OrdersHistoryScreenPresenter);

@@ -1,8 +1,9 @@
-import { LOGIN, LOGOUT, SUBSCRIBE, COORDINATE_UPDATE } from '../actions/types';
+import { LOGIN, LOGOUT, STATUS_UPDATE, SUBSCRIBE, COORDINATE_UPDATE } from '../actions/types';
 
 const initalState = {
-	loggedIn : true,	
+	loggedIn : false,	
 	deliveryBoyId : 1,
+	deliveryBoyStatus : true,
 	coordinate : null,
 	apiKey : ''
 }
@@ -10,6 +11,11 @@ const initalState = {
 const subscribe = (state, data) => {
 	newState = {...state};
 	newState.fcmToken = data;
+	return newState;
+}
+const updateOnlineStatus = (state, status) => {
+	newState = {...state};
+	newState.deliveryBoyStatus = status;
 	return newState;
 }
 const updateCoordinate = (state, data) => {
@@ -27,6 +33,7 @@ const logout = () => {
 	let initalState = {
 		loggedIn : false,	
 		deliveryBoyId : 1,
+		deliveryBoyStatus : false,
 		coordinate : null,
 		apiKey : ''
 	}
@@ -38,6 +45,8 @@ const userReducer = (state=initalState, action) => {
 			return login(state, action.payload);
         case LOGOUT :
             return logout();
+        case STATUS_UPDATE :
+        	return updateOnlineStatus(state, action.payload);
         case SUBSCRIBE :
         	return subscribe(state, action.payload);
         case COORDINATE_UPDATE :

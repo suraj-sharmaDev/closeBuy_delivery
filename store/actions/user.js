@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, SUBSCRIBE, COORDINATE_UPDATE } from './types';
+import { LOGIN, LOGOUT, SUBSCRIBE, STATUS_UPDATE, COORDINATE_UPDATE } from './types';
 
 export const login = data => {
   return {
@@ -13,6 +13,12 @@ export const logout = () => {
   }
 }
 
+export const updateStatus = (data) => {
+  return {
+    type : STATUS_UPDATE,
+    payload : data
+  }
+}
 export const subscribe = (data) => {
 	return {
 		type : SUBSCRIBE,

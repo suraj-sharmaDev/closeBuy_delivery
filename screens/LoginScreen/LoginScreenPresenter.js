@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, Dimensions, Animated, Keyboard, BackHandler} from 'react-native';
+import { Platform, Dimensions, Animated, Keyboard, BackHandler, Alert } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 
@@ -36,6 +36,17 @@ const LoginScreenPresenter = (props) => {
     Login(data)
     .then((result)=>{
       if(result.error){
+        Alert.alert(
+          'Failed',
+          'Your Login Information is incorrect!',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            }
+          ],
+          {cancelable: false},
+        );        
         //Username or password wrong
       }else{
         //Update redux

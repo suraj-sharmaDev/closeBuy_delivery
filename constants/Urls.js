@@ -8,7 +8,7 @@ export const DirectionPolyline =`https://maps.googleapis.com/maps/api/directions
 export const LoginApi = `${serverUrl}/delivery/loginApi/login`;
 
 export const InitializeApi =`${serverUrl}/delivery/initializationApi/initialize`;
-
+export const UpdateStatusApi =`${serverUrl}/delivery/statusApi/updateStatus`;
 export const UpdateTokenApi = `${serverUrl}/delivery/tokenApi/updateToken`;
 export const UpdateLocationApi = `${serverUrl}/delivery/locationApi/updateLocation`;
 

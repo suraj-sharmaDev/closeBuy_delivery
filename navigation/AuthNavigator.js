@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {receiveCurrentOrder, receivePendingOrder} from '../store/actions/order';
+import {updateStatus} from "../store/actions/user";
 
 import {Initialize} from '../middleware/API';
 import LoginScreen from "../screens/LoginScreen";
@@ -20,8 +21,7 @@ const AuthNavigator = (props) => {
 			Initialize(props.user.deliveryBoyId)
 				.then(async result => {
 					if (result.error) {
-						// console.warn(result);						
-						//If there are no saved addresses
+						// console.warn(result);
 						updateInitialized('initialized');
 					} else {
 						// console.warn(result);
@@ -60,10 +60,14 @@ const mapDispatchToProps = dispatch => {
   return {
     onRetrieveData : data => {
     	if(!data.current_order.error){
+    		//save current Orders
     		dispatch(receiveCurrentOrder(data.current_order.reason));
     	}if(!data.pending_orders.error){
+    		//save pending orders
     		dispatch(receivePendingOrder(data.pending_orders.reason));
     	}
+    	//Save deliveryBoy online status
+    	dispatch(updateStatus(data.online_status==='0' ? false : true))
     },
   }
 };

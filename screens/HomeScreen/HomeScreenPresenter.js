@@ -3,13 +3,14 @@ import { Platform, Dimensions, Alert } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
 
-import {UpdateLocation, AcceptOrder} from '../../middleware/API';
-import {updateCoordinate} from "../../store/actions/user";
+import {UpdateLocation, UpdateStatus, AcceptOrder} from '../../middleware/API';
+import {updateStatus, updateCoordinate} from "../../store/actions/user";
 import {acceptOrder} from "../../store/actions/order";
 
 import NotificationService from '../../middleware/NotificationService';
 import GeolocationService from '../../middleware/GeolocationService';
 import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
+import DeliveryBoyStatus from '../../components/HomeScreen/DeliveryBoyStatus';
 import OrdersList from '../../components/HomeScreen/OrdersList';
 const {height, width} = Dimensions.get('window');
 
@@ -32,6 +33,17 @@ const HomeScreenPresenter = (props) => {
   
   const onDataNotifs = data => {
     console.warn(data);
+  }
+  const updateStatusHandler = () => {
+    UpdateStatus(props.deliveryBoyId)
+    .then((result)=>{
+      if(!result.error){
+        props.onUpdateStatus(!props.activeStatus);
+      }
+    })
+    .catch((err)=>{
+      console.warn(err)
+    })
   }
   const updateCoordinateHandler = (region) => {
     let formData = new FormData();
@@ -79,6 +91,7 @@ const HomeScreenPresenter = (props) => {
   let content = (
   <Theme stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
     <NavigationBar {...props} />
+    <DeliveryBoyStatus onStatusUpdate={updateStatusHandler} activeStatus={props.activeStatus}/>
     <OrdersList store={props.order} onAcceptOrder={acceptOrderHandler} onTrackOrder={trackOrderHandler}/>
   </Theme>
   );
@@ -91,14 +104,18 @@ const HomeScreenPresenter = (props) => {
 
 const mapStateToProps = state => {
   return {
+    activeStatus : state.user.deliveryBoyStatus,
     deliveryBoyId : state.user.deliveryBoyId,
     order : state.order
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
+    onUpdateStatus: status => {
+      dispatch(updateStatus(status));
+    },   
     onAcceptOrder : (index) => {
-      dispatch(acceptOrder(index))
+      dispatch(acceptOrder(index));
     },
     onUpdateCoordinate : data => {
       dispatch(updateCoordinate(data));

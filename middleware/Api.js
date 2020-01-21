@@ -1,4 +1,4 @@
-import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, DirectionPolyline, LoginApi, InitializeApi, 
+import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, DirectionPolyline, LoginApi, InitializeApi, UpdateStatusApi, 
 	     UpdateTokenApi, UpdateLocationApi, AcceptOrderApi, PickOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
 	     GetPendingOrdersApi, GetCompletedOrdersApi, GetOrderDetailsApi} from "../constants/Urls";
 
@@ -28,6 +28,14 @@ export const UpdateToken = async(data) => {
 	const result = await response.json();
 	return result;	
 }
+
+export const UpdateStatus = async(deliveryBoyId) => {
+	const url = `${UpdateStatusApi}?deliveryBoyId=${deliveryBoyId}`;
+	const response = await fetch(url);
+	const result = await response.json();
+	return result;	
+}
+
 export const UpdateLocation = async(data) => {
 	const response = await fetch(UpdateLocationApi,{
 		method : 'POST',
@@ -66,8 +74,8 @@ export const GetPendingOrders = async(deliveryBoyId) => {
 	const result = await response.json();
 	return result;	
 }
-export const GetCompletedOrders = async(deliveryBoyId) => {
-	const url = `${GetCompletedOrdersApi}?deliveryBoyId=${deliveryBoyId}`;
+export const GetCompletedOrders = async(deliveryBoyId, startIndex) => {
+	const url = `${GetCompletedOrdersApi}?deliveryBoyId=${deliveryBoyId}&startIndex=${startIndex}`;
 	const response = await fetch(url);
 	const result = await response.json();
 	return result;	
