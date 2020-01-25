@@ -4,6 +4,7 @@ const initalState = {
 	loggedIn : false,	
 	deliveryBoyId : 1,
 	deliveryBoyStatus : true,
+	rowId : 0,
 	coordinate : null,
 	apiKey : ''
 }
@@ -13,9 +14,10 @@ const subscribe = (state, data) => {
 	newState.fcmToken = data;
 	return newState;
 }
-const updateOnlineStatus = (state, status) => {
+const updateOnlineStatus = (state, data) => {
 	newState = {...state};
-	newState.deliveryBoyStatus = status;
+	newState.deliveryBoyStatus = data.status;
+	newState.rowId = data.rowId;
 	return newState;
 }
 const updateCoordinate = (state, data) => {
@@ -34,6 +36,7 @@ const logout = () => {
 		loggedIn : false,	
 		deliveryBoyId : 1,
 		deliveryBoyStatus : false,
+		rowId : 0,
 		coordinate : null,
 		apiKey : ''
 	}

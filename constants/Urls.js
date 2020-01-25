@@ -21,3 +21,4 @@ export const GetPendingOrdersApi = `${serverUrl}/delivery/orderApi/getPendingOrd
 export const GetCompletedOrdersApi =`${serverUrl}/delivery/orderApi/getCompletedOrders`;
 
 export const GetOrderDetailsApi = `${serverUrl}/delivery/orderApi/getOrderDetails`;
+export const GetWorkingHoursApi = `${serverUrl}/delivery/workingHoursApi/getWorkingHours`;

@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:376646746221:android:ad4d6cd6e9465124843f64",
+        "mobilesdk_app_id": "1:376646746221:android:32f1bdf5183dbebc843f64",
         "android_client_info": {
-          "package_name": "com.closebuy"
+          "package_name": "com.crypt4bits.closebuy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "376646746221-70pguld43jkseu4k1s97aktjrn45l79h.apps.googleusercontent.com",
+          "client_id": "376646746221-vf3ocdp456g2rqb7k1a8h3o1ritqhcrh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.closebuy",
+            "package_name": "com.crypt4bits.closebuy",
             "certificate_hash": "3bcf1c5dcca743b3c9eb4247ec0fd449de7790b8"
           }
         },
@@ -45,17 +45,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:376646746221:android:d359b716badb5128843f64",
+        "mobilesdk_app_id": "1:376646746221:android:4df151f985f95d0e843f64",
         "android_client_info": {
-          "package_name": "com.partner"
+          "package_name": "com.crypt4bits.delivery"
         }
       },
       "oauth_client": [
         {
-          "client_id": "376646746221-6bi1crd5ftkuhhrqhrnj1urpdgc0tivg.apps.googleusercontent.com",
+          "client_id": "376646746221-gm5hdjs5m8t2t9nsna79ah4b5i1s3rln.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.partner",
+            "package_name": "com.crypt4bits.delivery",
             "certificate_hash": "3bcf1c5dcca743b3c9eb4247ec0fd449de7790b8"
           }
         },

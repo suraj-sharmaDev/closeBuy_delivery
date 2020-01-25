@@ -36,16 +36,13 @@ const OrderItem = ({data}) => {
 	let item = (
 		<Table>
 			<Column>
-				<Text>Item Name</Text> 
 				<Text>{data.name}</Text>
 			</Column>
 			<Column>
-				<Text>Quantity</Text> 
 				<Text>{data.qty}</Text>
 			</Column>
 			<Column>
-				<Text>Price/Qty</Text> 
-				<Text>{data.price}</Text>
+				<Text>Rs {data.price}</Text>
 			</Column>
 		</Table>
 	);

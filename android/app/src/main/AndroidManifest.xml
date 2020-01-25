@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.partner">
+  package="com.crypt4bits.delivery">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -16,21 +16,29 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+        <!-- Add this SplashActivity -->
+        <activity
+          android:name=".SplashActivity"
+          android:theme="@style/SplashTheme"
+          android:label="@string/app_name">
+          <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
+        </activity>      
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-      </activity>
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true" />
+        
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <meta-data
           android:name="com.google.android.geo.API_KEY"
-          android:value="AIzaSyD-dYEZW_Obd8uTv1Hfrj4cz6FQKryzdiQ"/>      
+          android:value="AIzaSyB8uLHYnYGtGxM2z3wjmVIJxsBc75e5N9c"/>      
       <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@mipmap/ic_launcher" />

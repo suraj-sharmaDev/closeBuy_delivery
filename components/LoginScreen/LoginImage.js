@@ -2,18 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 
 const View = styled.View`
-	background-color : blue;
+	background-color : white;
 	height : 100%;
+	align-items : center;
+	justify-content : center;
 `;
 const Image = styled.Image`
-	height : 100%;
-	width : 100%;
+	height : 70%;
+	width : 70%;
 `;
 
 const LoginImage = props => {
 	let content = (
 		<View>
-			<Image source={require('../../assets/images/offer2.png')} />
+			<Image source={require('../../assets/images/loginBanner.png')} />
 		</View>
 	);
 	return content;

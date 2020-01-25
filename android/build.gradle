@@ -5,8 +5,9 @@ buildscript {
         buildToolsVersion = "28.0.3"
         minSdkVersion = 16
         compileSdkVersion = 28
-        targetSdkVersion = 26 //default 28
+        targetSdkVersion = 28 //default 28
         supportLibVersion = "28.0.0"
+        googlePlayServicesVersion = "15.0.1"         //was added for background geolocation
     }
     repositories {
         google()

@@ -23,7 +23,6 @@ const Text = styled.Text`
 `;
 
 const OrderButton = props =>{
-	console.warn(props.orderStatus);
 	const clickHandler = () => {
 		Alert.alert(
 			'Completed',

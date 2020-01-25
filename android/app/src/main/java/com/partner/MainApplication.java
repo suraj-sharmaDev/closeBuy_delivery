@@ -1,4 +1,4 @@
-package com.partner;
+package com.crypt4bits.delivery;
 
 import android.app.Application;
 import android.util.Log;

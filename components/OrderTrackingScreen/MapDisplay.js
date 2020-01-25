@@ -4,23 +4,30 @@ import MapView from "react-native-maps";
 import styled from "styled-components";
 
 import {GetDirection} from '../../middleware/API';
-
 import MapTools from './MapTools';
+
+const {height, width} = Dimensions.get('window');
 const MapContainer = styled.View` 
   height : 50%;
 `;
-const {height, width} = Dimensions.get('window');
+const MarkerImage = styled.Image`
+  width : 24px;
+  height : 24px;
+`;
+
 const MapDisplay = (props) => {
   const startCoords = props.markers.deliveryBoyMarker;
-  const destinationCoords = props.orderStatus === 'pickup' ? props.markers.distributorMarker : props.markers.customerMarker;
+  const destinationCoords = props.orderStatus != 'picked' ? props.markers.distributorMarker : props.markers.customerMarker;
+  const [directionCoords, updateDirectionCoords] = React.useState(null);
   React.useEffect(()=>{
-    // initializeDirection();
+    initializeDirection();
+    mapFitOnScreen();
   },[props.orderStatus])
 
   const initializeDirection = () => {
     GetDirection(startCoords, destinationCoords)
     .then((result)=>{
-      console.warn(result);
+      updateDirectionCoords(result);
     })
     .catch((err)=>{
       console.warn(err);
@@ -43,16 +50,32 @@ const MapDisplay = (props) => {
         minZoomLevel={10}
         ref={_mapRef}
         initialRegion={props.userLocation}
-        showsUserLocation = {true}
+        showsUserLocation = {false}
         onRegionChangeComplete={props.onRegionChange}
         onMapReady={mapFitOnScreen}
       >
-        <MapView.Polyline 
-          coordinates={[startCoords, destinationCoords]}
-          strokeWidth={2}
-          strokeColor="red"
-        />      
-      </MapView>
+        <MapView.Marker 
+          coordinate={startCoords}
+        >
+          <MarkerImage source={require('../../assets/images/scooter.png')} />
+        </MapView.Marker>
+        <MapView.Marker 
+          coordinate={destinationCoords}
+        >
+          <MarkerImage source={require('../../assets/images/marker.png')} />
+        </MapView.Marker>
+        {
+          directionCoords!==null
+          ?
+          <MapView.Polyline 
+            coordinates={directionCoords}
+            strokeWidth={2}
+            strokeColor="red"
+          />      
+          :
+          null
+        }      
+        </MapView>
       <MapTools openNativeMaps={props.openNativeMaps}/>
     </MapContainer>  
   );

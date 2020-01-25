@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 import {receiveCurrentOrder, receivePendingOrder} from '../store/actions/order';
 import {updateStatus} from "../store/actions/user";
@@ -12,6 +13,7 @@ import AppNavigator from "./AppNavigator";
 const AuthNavigator = (props) => {
 	const [initialized, updateInitialized] = React.useState(null);
 	React.useEffect(()=>{
+		SplashScreen.hide();		
 		return ()=>{
 		}
 	},[])
@@ -67,7 +69,7 @@ const mapDispatchToProps = dispatch => {
     		dispatch(receivePendingOrder(data.pending_orders.reason));
     	}
     	//Save deliveryBoy online status
-    	dispatch(updateStatus(data.online_status==='0' ? false : true))
+    	dispatch(updateStatus(data.online_status=='0' ? false : true))
     },
   }
 };

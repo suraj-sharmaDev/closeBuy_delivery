@@ -8,7 +8,8 @@ import {updateStatus, updateCoordinate} from "../../store/actions/user";
 import {acceptOrder} from "../../store/actions/order";
 
 import NotificationService from '../../middleware/NotificationService';
-import GeolocationService from '../../middleware/GeolocationService';
+// import GeolocationService from '../../middleware/GeolocationService';
+import BackgroundGeolocationService from '../../middleware/BackgroundGeolocationService';
 import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
 import DeliveryBoyStatus from '../../components/HomeScreen/DeliveryBoyStatus';
 import OrdersList from '../../components/HomeScreen/OrdersList';
@@ -24,21 +25,22 @@ const HomeScreenPresenter = (props) => {
   const [isLoading, updateLoading] = React.useState(true);
   React.useEffect(()=>{
     NotificationService(props.deliveryBoyId, onDataNotifs);
-    GeolocationService(true, updateCoordinateHandler); //true as in mounted
-
+    BackgroundGeolocationService(true, updateCoordinateHandler); //true as in mounted
     return ()=>{
-      GeolocationService(false, updateCoordinateHandler); //false as in unmounted      
+      updateLoading(null);
+      BackgroundGeolocationService(false, updateCoordinateHandler); //false as in unmounted
     }
   },[])
   
   const onDataNotifs = data => {
-    console.warn(data);
+    // console.warn(data);
   }
   const updateStatusHandler = () => {
-    UpdateStatus(props.deliveryBoyId)
+    statusUpdateString = props.activeStatus==1?'offline':'online';
+    UpdateStatus(props.deliveryBoyId, statusUpdateString, props.rowId)
     .then((result)=>{
       if(!result.error){
-        props.onUpdateStatus(!props.activeStatus);
+        props.onUpdateStatus({status : !props.activeStatus, rowId:result.rowId});
       }
     })
     .catch((err)=>{
@@ -52,9 +54,11 @@ const HomeScreenPresenter = (props) => {
     formData.append('coordinates', JSON.stringify(region));    
     UpdateLocation(formData)
     .then((result)=>{
-      props.onUpdateCoordinate(region);
-      // props.navigation.navigate('OrderTrack'); //for developmental purpose remove afterwards
-      updateLoading(false);
+      if(isLoading!==null){
+        props.onUpdateCoordinate(region);
+        // props.navigation.navigate('OrderTrack'); //for developmental purpose remove afterwards
+        updateLoading(false);
+      }
     })
     .catch((err)=>{
       console.warn(err)
@@ -106,6 +110,7 @@ const mapStateToProps = state => {
   return {
     activeStatus : state.user.deliveryBoyStatus,
     deliveryBoyId : state.user.deliveryBoyId,
+    rowId : state.user.rowId,
     order : state.order
   }
 }

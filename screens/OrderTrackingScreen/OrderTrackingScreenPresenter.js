@@ -46,7 +46,6 @@ const OrderTrackingScreenPresenter = (props) => {
       //when order has been picked up
       PickOrder(orderId, customerId)
       .then((result)=>{
-        console.warn(result);
         updateOrderStatus('picked')        
       })
       .catch((err)=>{
