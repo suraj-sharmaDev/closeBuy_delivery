@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 
 import {receiveCurrentOrder, receivePendingOrder} from '../store/actions/order';
-import {updateStatus} from "../store/actions/user";
+import {updateStatus, logout} from "../store/actions/user";
 
 import {Initialize} from '../middleware/API';
 import LoginScreen from "../screens/LoginScreen";
@@ -11,7 +11,7 @@ import AppNavigator from "./AppNavigator";
 
 
 const AuthNavigator = (props) => {
-	const [initialized, updateInitialized] = React.useState(null);
+	const [initialized, updateInitialized] = React.useState('');
 	React.useEffect(()=>{
 		SplashScreen.hide();		
 		return ()=>{
@@ -19,14 +19,13 @@ const AuthNavigator = (props) => {
 	},[])
 
 	const appInitializer = async() => {
-		if(initialized===null){
+		// props.onLogout();
+		if(initialized===''){
 			Initialize(props.user.deliveryBoyId)
 				.then(async result => {
 					if (result.error) {
-						// console.warn(result);
 						updateInitialized('initialized');
 					} else {
-						// console.warn(result);
 						//latest updated information for this deliveryBoy
 						await props.onRetrieveData(result);
 						updateInitialized('initialized');
@@ -42,10 +41,10 @@ const AuthNavigator = (props) => {
 	let content = null;
 	if(props.user.loggedIn){
 		//initialize app only when user has been verified and not already initialized
-		appInitializer();
 		if(initialized === 'initialized'){
 			content = <AppNavigator />;
 		}
+		appInitializer();		
 	}else{
 		content = <LoginScreen />;
 	}
@@ -69,8 +68,12 @@ const mapDispatchToProps = dispatch => {
     		dispatch(receivePendingOrder(data.pending_orders.reason));
     	}
     	//Save deliveryBoy online status
-    	dispatch(updateStatus(data.online_status=='0' ? false : true))
+    	onlineStatus = (data.online_status=='0' || data.online_status==null) ? false : true;
+    	dispatch(updateStatus({status : onlineStatus, rowId : 0}))
     },
+    onLogout : () => {
+    	dispatch(logout())
+    }
   }
 };
 export default React.memo(connect(mapStateToProps, mapDispatchToProps)(AuthNavigator));

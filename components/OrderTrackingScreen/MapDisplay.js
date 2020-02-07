@@ -3,6 +3,7 @@ import { Dimensions, View } from 'react-native';
 import MapView from "react-native-maps";
 import styled from "styled-components";
 
+import CustomMap from '../../constants/CustomMap';
 import {GetDirection} from '../../middleware/API';
 import MapTools from './MapTools';
 
@@ -37,11 +38,13 @@ const MapDisplay = (props) => {
     _map = ref;
   }    
   const mapFitOnScreen = () => {
-    let edgePadding = {bottom: 100, right: 24, left: 0, top: 20};
-    _map.fitToCoordinates([startCoords, destinationCoords], {
-      edgePadding,
-      animated: true,
-    });
+    if(_map.state.isReady){
+      let edgePadding = {bottom: 100, right: 24, left: 0, top: 20};
+      _map.fitToCoordinates([startCoords, destinationCoords], {
+        edgePadding,
+        animated: true,
+      });
+    }
   }  
   let content = (
     <MapContainer>
@@ -49,6 +52,7 @@ const MapDisplay = (props) => {
         style={{ height : '100%'}}
         minZoomLevel={10}
         ref={_mapRef}
+        customMapStyle={CustomMap}
         initialRegion={props.userLocation}
         showsUserLocation = {false}
         onRegionChangeComplete={props.onRegionChange}

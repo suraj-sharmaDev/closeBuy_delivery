@@ -1,12 +1,20 @@
 import {createAppContainer} from 'react-navigation';
 import { createStackNavigator } from "react-navigation-stack";
 
+import DutyScreen from "../screens/DutyScreen";
 import DrawerNavigator from "./DrawerNavigator";
 import OrderDetailScreen from "../screens/OrderDetailScreen";
 import OrderCompletionScreen from "../screens/OrderCompletionScreen";
 import OrderTrackingScreen from "../screens/OrderTrackingScreen";
 const ScreensStack = createStackNavigator(
   {
+    Duty : {
+      screen: DutyScreen,
+      navigationOptions: {
+        header: null,
+        headerTransparent: true
+      }
+    },    
     Drawer: {
       screen: DrawerNavigator,
       navigationOptions: {
@@ -37,7 +45,7 @@ const ScreensStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: "Drawer",
+    initialRouteName: "Duty",
     headerMode: "screen"
   }
 );

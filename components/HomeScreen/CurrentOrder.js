@@ -22,7 +22,6 @@ const Label = styled.Text`
 `;
 
 const CurrentOrder = (props) => {
-	// console.warn(props.store);
 	let content = null;
 	React.useEffect(() => {
 	}, []);
@@ -30,7 +29,13 @@ const CurrentOrder = (props) => {
 	content = (
 		<Container>
 			<Label>Current Order</Label>
-			<OrderCard store={props.store} index={0} clickHandler={props.onTrackOrder}/>
+			{
+				Object.keys(props.store).length > 0
+				?				
+				props.store.map((s, index)=><OrderCard store={s} key={index} index={index} clickHandler={props.onTrackOrder}/>)
+				:
+				<OrderCard store={props.store} />				
+			}
 		</Container>		
 	);
 	return content;

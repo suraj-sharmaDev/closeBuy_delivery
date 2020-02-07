@@ -12,6 +12,7 @@ export const UpdateStatusApi =`${serverUrl}/delivery/statusApi/updateStatus`;
 export const UpdateTokenApi = `${serverUrl}/delivery/tokenApi/updateToken`;
 export const UpdateLocationApi = `${serverUrl}/delivery/locationApi/updateLocation`;
 
+export const CancelOrderApi =`${serverUrl}/delivery/orderApi/cancelOrder`; 
 export const AcceptOrderApi =`${serverUrl}/delivery/orderApi/acceptOrder`; 
 export const PickOrderApi =`${serverUrl}/delivery/orderApi/pickOrder`; 
 export const CompleteOrderApi =`${serverUrl}/delivery/orderApi/completeOrder`;

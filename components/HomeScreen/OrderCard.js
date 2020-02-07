@@ -27,7 +27,6 @@ const OrderCard = props => {
 	let order = null;
 	React.useEffect(() => {
 	}, []);
-
 	if(Object.keys(props.store).length===0){
 		content = (<Text>No Order</Text>);
 	}else{

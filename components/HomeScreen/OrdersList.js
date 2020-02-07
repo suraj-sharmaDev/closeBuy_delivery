@@ -8,7 +8,7 @@ import Colors from '../../constants/Colors';
 import CurrentOrder from './CurrentOrder';
 import PendingOrders from './PendingOrders';
 
-const Container = styled.ScrollView`
+const Container = styled.View`
 	padding : 10px;
 `;
 

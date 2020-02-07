@@ -2,11 +2,10 @@ import React from "react";
 import { Platform, PermissionsAndroid, Dimensions, Linking } from 'react-native';
 import styled from "styled-components";
 import {connect} from 'react-redux';
-import {completeOrder} from '../../store/actions/order';
+import {updateOrderStatus, completeOrder} from '../../store/actions/order';
 import {PickOrder, CompleteOrder} from '../../middleware/API';
 import MapDisplay from '../../components/OrderTrackingScreen/MapDisplay';
 import OrderDetail from '../../components/OrderTrackingScreen/OrderDetail';
-import OrderButton from '../../components/OrderTrackingScreen/OrderButton';
 
 const {height, width} = Dimensions.get('window');
 const Theme = styled.View`
@@ -16,28 +15,28 @@ const Theme = styled.View`
 const Text = styled.Text``;
 
 const OrderTrackingScreenPresenter = (props) => {
+  const currentIndex = props.navigation.getParam('currentIndex');
   const markers = {
             deliveryBoyMarker: {
               latitude: parseFloat(props.user.coordinate.latitude),
               longitude: parseFloat(props.user.coordinate.longitude),
             },
             distributorMarker : {
-              latitude: Object.keys(props.order).length > 0 ? parseFloat(props.order.pickupCoordinates.latitude) : null,
-              longitude: Object.keys(props.order).length > 0 ? parseFloat(props.order.pickupCoordinates.longitude) : null,
+              latitude: Object.keys(props.order).length > 0 ? parseFloat(props.order[currentIndex].pickupCoordinates.latitude) : null,
+              longitude: Object.keys(props.order).length > 0 ? parseFloat(props.order[currentIndex].pickupCoordinates.longitude) : null,
             },
             customerMarker: {
-              latitude: Object.keys(props.order).length > 0 ? parseFloat(props.order.deliveryCoordinates.coordinate.latitude) : null,
-              longitude: Object.keys(props.order).length > 0 ? parseFloat(props.order.deliveryCoordinates.coordinate.longitude) : null,              
+              latitude: Object.keys(props.order).length > 0 ? parseFloat(props.order[currentIndex].deliveryCoordinates.coordinate.latitude) : null,
+              longitude: Object.keys(props.order).length > 0 ? parseFloat(props.order[currentIndex].deliveryCoordinates.coordinate.longitude) : null,              
             },
   }; 
-  const orderId = props.order.orderId;
-  const customerId = props.order.customerId;
+  const orderId = props.order[currentIndex] ? props.order[currentIndex].orderId : null;
+  const customerId = props.order[currentIndex] ? props.order[currentIndex].customerId : null;
   //order status can have three states
   //accepted
   //picked
   //completed
-  const [orderStatus, updateOrderStatus] = React.useState(props.order.orderStatus);
-
+  const [orderStatus, updateOrderStatus] = React.useState(props.order[currentIndex]?props.order[currentIndex].orderStatus: null);
   React.useEffect(()=>{
   },[])
 
@@ -46,7 +45,8 @@ const OrderTrackingScreenPresenter = (props) => {
       //when order has been picked up
       PickOrder(orderId, customerId)
       .then((result)=>{
-        updateOrderStatus('picked')        
+        props.onUpdateOrderStatus({index:currentIndex, status:'picked'});
+        updateOrderStatus('picked');
       })
       .catch((err)=>{
         console.warn(err);
@@ -55,7 +55,8 @@ const OrderTrackingScreenPresenter = (props) => {
       //when order has been delivered up
       CompleteOrder(orderId, customerId)
       .then((result)=>{
-        props.onCompleteOrder();
+        props.onCompleteOrder(currentIndex);
+        props.navigation.navigate('HomeScreen');
       })
       .catch((err)=>{
         console.warn(err);
@@ -63,51 +64,55 @@ const OrderTrackingScreenPresenter = (props) => {
     }
   }
   const openNativeMaps = () => {
-    const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
-    const latLng = orderStatus==='accepted' ? 
-          `${props.order.pickupCoordinates.latitude},${props.order.pickupCoordinates.longitude}`
-          :
-          `${props.order.deliveryCoordinates.coordinate.latitude},${props.order.deliveryCoordinates.coordinate.longitude}`;
-    const label = orderStatus==='accepted' ? 'Distributor' : 'Customer';
-    const url = Platform.select({
-      ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`,
+    //Lets facilitate delivery boy to see location of all the pickups and delivery Location
+    //for easier delivery
+    wayPoints='';
+    props.order.map((o, index)=>{
+      if(index!=currentIndex){
+        if(orderStatus==='accepted'){
+          wayPoints+=wayPoints!==''?`${o.pickupCoordinates.latitude},${o.pickupCoordinates.longitude}`
+                              :`|${o.pickupCoordinates.latitude},${o.pickupCoordinates.longitude}`
+        }else{
+          wayPoints+=wayPoints!==''?`${o.deliveryCoordinates.latitude},${o.deliveryCoordinates.longitude}`
+                              :`|${o.deliveryCoordinates.latitude},${o.deliveryCoordinates.longitude}`
+        }
+      }
     });
 
+    // const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
+    const origin = `${props.user.coordinate.latitude},${props.user.coordinate.longitude}`;    
+    const destination = orderStatus==='accepted' ? 
+          `${props.order[currentIndex].pickupCoordinates.latitude},${props.order[currentIndex].pickupCoordinates.longitude}`
+          :
+          `${props.order[currentIndex].deliveryCoordinates.coordinate.latitude},${props.order[currentIndex].deliveryCoordinates.coordinate.longitude}`;
+
+    let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+    if(wayPoints!==''){
+      url+=`&waypoints=${wayPoints}`;
+    }
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
         return Linking.openURL(url);
       } else {
-        browser_url =
-          'https://www.google.de/maps/@' +
-          this.props.track.userLatitude +
-          ',' +
-          this.props.track.userLongitude +
-          '?q=' +
-          label;
-        return Linking.openURL(browser_url);
+        //install google maps
       }
     });
   }
 
-  let content = (
-    <Theme>
-      {
-        Object.keys(props.order).length > 0 ? 
-        <React.Fragment>
-          <MapDisplay markers={markers} 
-            userLocation={props.user.coordinate} 
-            orderStatus={orderStatus}
-            openNativeMaps={openNativeMaps}
-          />
-          <OrderDetail order={props.order} />
-          <OrderButton orderStatus={orderStatus} clickHandler={clickHandler} />        
-        </React.Fragment>
-        : 
-        <Text>Completed Order</Text>
-      }
-    </Theme>
-  );
+  let content = null;
+  if(props.order[currentIndex])
+  {
+    content = (
+      <Theme>
+        <MapDisplay markers={markers} 
+          userLocation={props.user.coordinate} 
+          orderStatus={orderStatus}
+          openNativeMaps={openNativeMaps}
+        />
+        <OrderDetail order={props.order[currentIndex]} orderStatus={orderStatus} clickHandler={clickHandler}/>
+      </Theme>
+    );
+  }
   return content;
 };
 
@@ -119,8 +124,11 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onCompleteOrder : () => {
-      dispatch(completeOrder())
+    onUpdateOrderStatus : (data) => {
+      dispatch(updateOrderStatus(data))
+    },
+    onCompleteOrder : (index) => {
+      dispatch(completeOrder(index))
     }
   }
 }

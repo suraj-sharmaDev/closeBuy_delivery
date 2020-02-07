@@ -1,15 +1,15 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import styled from 'styled-components';
+
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
 
 const Container = styled.View`
-	margin-top : 30px;
-	padding : 10px;
+	margin-top : auto;
 	flex-direction : row;
-	justify-content : center;
 	align-items : center;
+	justify-content : center;
 `;
 const Button = styled.TouchableOpacity`
 	background-color : ${Colors.greenColor};

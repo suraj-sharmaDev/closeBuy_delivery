@@ -19,3 +19,11 @@ const rootReducer = combineReducers({
 
 export const configureStore = createStore(rootReducer);
 export const persistor = persistStore(configureStore);
+
+
+// const rootReducer = combineReducers({
+//   user : userReducer,
+//   order : orderReducer
+// });
+
+// export const configureStore = createStore(rootReducer);

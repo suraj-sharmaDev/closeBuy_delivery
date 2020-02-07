@@ -6,7 +6,12 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
     'delivery',
     'delivery channel',
     firebase.notifications.Android.Importance.Max,
-  );
+  )
+  .setSound('default')
+  .enableLights(true)
+  .enableVibration(true)
+  .setVibrationPattern([200,300,400,500]);
+
   firebase.notifications().android.createChannel(channel);
   // firebase.messaging().subscribeToTopic('delivery_Suraj');  //to receive message for individual users
 
@@ -70,19 +75,20 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
       console.warn(JSON.stringify(message));
     });
     firebase.notifications().onNotification(notification => {
-      console.warn(JSON.stringify(notification));
+      const localNotification = new firebase.notifications.Notification()
+        .setNotificationId(notification.notificationId)
+        .setTitle(notification.title)
+        .setBody(notification.body)
+        .android.setChannelId('delivery')        
+        .android.setAutoCancel(true)
+        .android.setGroupAlertBehaviour(firebase.notifications.Android.GroupAlert.All)
+        .android.setCategory(firebase.notifications.Android.Category.Alarm);
+
       if (notification._data) {
         onDataNotifs(notification._data);
+        firebase.notifications().displayNotification(localNotification);
         //do something with data
       } else {
-        const localNotification = new firebase.notifications.Notification()
-          .setNotificationId(notification.notificationId)
-          .setTitle(notification.title)
-          .setBody(notification.body)
-          .setSound('default')
-          .android.setChannelId('insider')
-          .android.setAutoCancel(true);
-
         firebase.notifications().displayNotification(localNotification);
       }
     });

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
+import {AlertService} from '../../middleware/AlertService';
 
 const Container = styled.View`
 	padding : 5px 0px;
@@ -20,11 +21,14 @@ const Text = styled.Text`
 `;
 
 const DeliveryBoyStatus = (props) => {
+	const clickHandler = () => {
+		AlertService('','Are you sure to end duty?',()=>props.onStatusUpdate());		
+	}
 	let content = (
 		<Container>
 			<Button 
 				style={{ backgroundColor : props.activeStatus===true ? Colors.greenColor : Colors.dangerColor}}
-				onPress={()=>props.onStatusUpdate()}
+				onPress={clickHandler}
 			>
 				<Text>
 				{

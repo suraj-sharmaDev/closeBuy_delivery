@@ -9,8 +9,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const BackgroundGeolocationService = (mounted, updateCoordinate) => {
 	BackgroundGeolocation.configure({
       desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
-      stationaryRadius: 2,
-      distanceFilter: 2,
+      stationaryRadius: 10,
+      distanceFilter: 30,
       notificationTitle: 'Background tracking',
       notificationText: 'CloseBuy is searching your GPS',
       debug: false,
@@ -30,7 +30,7 @@ const BackgroundGeolocationService = (mounted, updateCoordinate) => {
       latitudeDelta : LATITUDE_DELTA,
       longitudeDelta : LONGITUDE_DELTA
     };
-    updateCoordinate(region);
+    updateCoordinate(region, mounted);
   });
 
 	BackgroundGeolocation.on('location', location => {
@@ -45,7 +45,7 @@ const BackgroundGeolocationService = (mounted, updateCoordinate) => {
         longitudeDelta : LONGITUDE_DELTA
       };
       if(mounted){
-        updateCoordinate(region);
+        updateCoordinate(region, mounted);
       }
 			BackgroundGeolocation.endTask(taskKey);
 		});

@@ -16,6 +16,7 @@ export default {
   blackColor: "#3B3B3B",
   warningColor : "#f0ad4e",
   dangerColor : "#d9534f",
+  blueColor : "#1A7FC6",
   leftBoxColor: "#FDDCFD",
   rightBoxColor: "#B2FAFF",
 };

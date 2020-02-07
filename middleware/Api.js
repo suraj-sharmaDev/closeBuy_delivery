@@ -1,5 +1,5 @@
 import { ReverseGeocode, PlacesAutoComplete, PlaceDetailsById, DirectionPolyline, LoginApi, InitializeApi, UpdateStatusApi, 
-	     UpdateTokenApi, UpdateLocationApi, AcceptOrderApi, PickOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
+	     UpdateTokenApi, UpdateLocationApi, CancelOrderApi, AcceptOrderApi, PickOrderApi, CompleteOrderApi, GetCurrentOrderApi, 
 	     GetPendingOrdersApi, GetCompletedOrdersApi, GetOrderDetailsApi, GetWorkingHoursApi} from "../constants/Urls";
 import Polyline from '@mapbox/polyline';
 import API_KEY from "../constants/Api";
@@ -41,6 +41,12 @@ export const UpdateLocation = async(data) => {
 		method : 'POST',
 		body : data
 	});
+	const result = await response.json();
+	return result;	
+}
+export const CancelOrder = async(deliveryBoyId, orderId, customerId) => {
+	let url = `${CancelOrderApi}?deliveryBoyId=${deliveryBoyId}&orderId=${orderId}&customerId=${customerId}`;
+	const response = await fetch(url);
 	const result = await response.json();
 	return result;	
 }
