@@ -9,6 +9,8 @@ import {acceptOrder, receivePendingOrder} from "../../store/actions/order";
 
 import NotificationService from '../../middleware/NotificationService';
 import AlertService from '../../middleware/AlertService';
+import SoundService from '../../middleware/SoundService';
+
 import BackgroundGeolocationService from '../../middleware/BackgroundGeolocationService';
 import NavigationBar from '../../components/DrawerNavigator/NavigationBar';
 import DeliveryBoyStatus from '../../components/HomeScreen/DeliveryBoyStatus';
@@ -36,7 +38,8 @@ const HomeScreenPresenter = (props) => {
       }
     });  
     return ()=>{
-      updateLoading(null);
+      // updateLoading(null);
+      SoundService(false);
       BackgroundGeolocationService(false, updateCoordinateHandler); //false as in unmounted
       backHandler.remove();
       AppState.removeEventListener('change', handleAppStateChange);            
@@ -61,6 +64,8 @@ const HomeScreenPresenter = (props) => {
           if(result.reason.length!==props.order.pendingOrders.length){
             //This check is necessary since the background state of app doesn't fetch 
             //pending orders and update is really necessary
+            //start playing new order received sound
+            SoundService('play');
             props.onReceivePendingOrders(result.reason);
           }
         }

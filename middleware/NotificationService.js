@@ -7,10 +7,10 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
     'delivery channel',
     firebase.notifications.Android.Importance.Max,
   )
-  .setSound('default')
+  .setSound('alert.mp3')
   .enableLights(true)
   .enableVibration(true)
-  .setVibrationPattern([200,300,400,500]);
+  .setVibrationPattern([200,300,400,500,700,800,900,900,1000]);
 
   firebase.notifications().android.createChannel(channel);
   // firebase.messaging().subscribeToTopic('delivery_Suraj');  //to receive message for individual users
@@ -63,7 +63,7 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
   const createNotificationListeners = () => {
     //We have to check for refreshed tokens
     onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-      subscribe(fcmToken);
+      saveToken(fcmToken);
     });
 
     //Listen for notifications
@@ -79,7 +79,8 @@ const NotificationService = (deliveryBoyId, onDataNotifs) => {
         .setNotificationId(notification.notificationId)
         .setTitle(notification.title)
         .setBody(notification.body)
-        .android.setChannelId('delivery')        
+        .setSound(channel.sound)
+        .android.setChannelId(channel.channelId)
         .android.setAutoCancel(true)
         .android.setGroupAlertBehaviour(firebase.notifications.Android.GroupAlert.All)
         .android.setCategory(firebase.notifications.Android.Category.Alarm);

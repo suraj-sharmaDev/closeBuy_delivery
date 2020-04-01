@@ -1,5 +1,6 @@
-import React, {Fragment} from 'react';
+import React, {Component, Fragment} from 'react';
 import 'react-native-gesture-handler';
+import CodePush from 'react-native-code-push';
 import styled from 'styled-components';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -12,17 +13,25 @@ const Container = styled.View`
   flex : 1;
 `;
 
-const App = () => {
-  return (
-      <Container>
-        <GeneralStatusBar/>
-        <Provider store = { configureStore }>
-			<PersistGate loading={null} persistor={persistor}>
-          		<AuthNavigator />
-      		</PersistGate>        
-        </Provider>        
-      </Container>
-  );
+class App extends Component {
+  render(){
+    return (
+        <Container>
+          <GeneralStatusBar/>
+          <Provider store = { configureStore }>
+        <PersistGate loading={null} persistor={persistor}>
+                <AuthNavigator />
+            </PersistGate>        
+          </Provider>        
+        </Container>
+    );
+  }
 };
+
+let updateOptions = {
+  checkFrequency: CodePush.CheckFrequency.ON_APP_START
+}
+
+App = CodePush(updateOptions)(App);
 
 export default App;

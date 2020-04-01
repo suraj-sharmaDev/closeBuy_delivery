@@ -1,6 +1,7 @@
 package com.crypt4bits.delivery;
 
-import android.app.Application;
+// import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.facebook.react.PackageList;
@@ -15,8 +16,10 @@ import java.util.List;
  // import for firebase messaging and notifications
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+//import plugin for code-push
+import com.microsoft.codepush.react.CodePush;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -36,6 +39,14 @@ public class MainApplication extends Application implements ReactApplication {
       return packages;
     }
 
+    // 2. Override the getJSBundleFile method in order to let
+    // the CodePush runtime determine where to get the JS
+    // bundle location from on each app start
+    @Override
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+    
     @Override
     protected String getJSMainModuleName() {
       return "index";

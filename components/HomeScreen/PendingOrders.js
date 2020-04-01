@@ -29,7 +29,7 @@ const PendingOrders = (props) => {
 
 	content = (
 		<Container>
-			<Label>Pending Orders</Label>
+			<Label>Pending Order</Label>
 			{
 				Object.keys(props.store).length > 0
 				?

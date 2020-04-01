@@ -16,9 +16,11 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:3.4.1")
         
-        classpath('com.google.gms:google-services:4.3.2')   //For GCM services i.e firebase
+        classpath('com.google.gms:google-services:4.3.3+')   //For GCM services i.e firebase
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        //must for firebase and code-push
+        //4.3.2 not appropriate
     }
 }
 

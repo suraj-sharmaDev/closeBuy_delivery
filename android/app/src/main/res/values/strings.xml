@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CloseBuy Partner</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">8LxiI-ki5TzwEuRle9n79XNDvF4bLDK7kIy2ds</string>
 </resources>
